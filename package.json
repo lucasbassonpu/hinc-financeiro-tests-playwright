@@ -1,0 +1,30 @@
+{
+  "name": "hinc-financeiro-playwright-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:ci": "playwright test --config=ci-cd/configs/playwright-ci.config.js",
+    "report": "playwright show-report",
+    "setup:dev": "./ci-cd/scripts/setup-env.sh dev",
+    "setup:staging": "./ci-cd/scripts/setup-env.sh staging",
+    "setup:prod": "./ci-cd/scripts/setup-env.sh prod",
+    "docker:build": "docker-compose -f ci-cd/docker/docker-compose.yml build",
+    "docker:test": "docker-compose -f ci-cd/docker/docker-compose.yml up"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "@types/node": "^24.5.1",
+    "dotenv": "^17.2.2"
+  },
+  "dependencies": {
+    "ag-grid-playwright": "^1.1.2"
+  }
+}
