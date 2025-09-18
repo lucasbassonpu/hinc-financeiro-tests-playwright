@@ -5,9 +5,9 @@ import { readMoney, expectCloseTo } from '../support/helpers.js';
 test.describe('Consistência inter-seções', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto(process.env.BASE_URL);
-        await page.setViewportSize({ 
-            width: parseInt(process.env.VIEWPORT_WIDTH) || 1920, 
-            height: parseInt(process.env.VIEWPORT_HEIGHT) || 1080 
+        await page.setViewportSize({
+            width: parseInt(process.env.VIEWPORT_WIDTH) || 1920,
+            height: parseInt(process.env.VIEWPORT_HEIGHT) || 1080
         });
     });
 
@@ -16,47 +16,47 @@ test.describe('Consistência inter-seções', () => {
             const dashboardRecebido = await readMoney(page, elements.dashboard.receitas.totalRecebido);
             await page.locator(elements.fluxoCaixa.botaoLista).click();
             const fluxoRealizado = await readMoney(page, elements.fluxoCaixa.entradas.realizado);
-            
+
             expectCloseTo(dashboardRecebido, fluxoRealizado, 0.005);
         });
-        
+
         test('Verificar se Total a receber Dashboard = Entradas a Realizar Fluxo de Caixa', async ({ page }) => {
             const dashboardAReceber = await readMoney(page, elements.dashboard.receitas.totalAReceber);
             await page.locator(elements.fluxoCaixa.botaoLista).click();
             const fluxoARealizar = await readMoney(page, elements.fluxoCaixa.entradas.aRealizar);
-            
+
             expectCloseTo(dashboardAReceber, fluxoARealizar, 0.005);
         });
-        
+
         test('Verificar se Total Pago Dashboard = Saídas realizado Fluxo de Caixa', async ({ page }) => {
             const dashboardPago = await readMoney(page, elements.dashboard.despesas.totalPago);
             await page.locator(elements.fluxoCaixa.botaoLista).click();
             const fluxoRealizado = await readMoney(page, elements.fluxoCaixa.saidas.realizado);
-            
+
             expectCloseTo(dashboardPago, fluxoRealizado, 0.005);
         });
-        
+
         test('Verificar se Total a Pagar Dashboard = Saídas A Realizar Fluxo de Caixa', async ({ page }) => {
             const dashboardAPagar = await readMoney(page, elements.dashboard.despesas.totalAPagar);
             await page.locator(elements.fluxoCaixa.botaoLista).click();
             const fluxoARealizar = await readMoney(page, elements.fluxoCaixa.saidas.aRealizar);
-            
+
             expectCloseTo(dashboardAPagar, fluxoARealizar, 0.005);
         });
-        
+
         test('Verificar se Comprometido Receitas Dashboard = Comprometido Entradas Fluxo de Caixa', async ({ page }) => {
             const dashboardComprometido = await readMoney(page, elements.dashboard.receitas.comprometido);
             await page.locator(elements.fluxoCaixa.botaoLista).click();
             const fluxoComprometido = await readMoney(page, elements.fluxoCaixa.entradas.comprometido);
-            
+
             expectCloseTo(dashboardComprometido, fluxoComprometido, 0.005);
         });
-        
+
         test('Verificar se Comprometido Despesas Dashboard = Comprometido Saidas Fluxo de Caixa', async ({ page }) => {
             const dashboardComprometido = await readMoney(page, elements.dashboard.despesas.comprometido);
             await page.locator(elements.fluxoCaixa.botaoLista).click();
             const fluxoComprometido = await readMoney(page, elements.fluxoCaixa.saidas.comprometido);
-            
+
             expectCloseTo(dashboardComprometido, fluxoComprometido, 0.005);
         });
     });
@@ -66,15 +66,15 @@ test.describe('Consistência inter-seções', () => {
             const dashboardComprometido = await readMoney(page, elements.dashboard.receitas.comprometido);
             await page.locator(elements.resumosFinanceiros.indiceReceitas.resumo.botaoAbrir).click();
             const indiceComprometido = await readMoney(page, elements.resumosFinanceiros.indiceReceitas.resumo.comprometido);
-            
+
             expectCloseTo(dashboardComprometido, indiceComprometido, 0.005);
         });
-        
+
         test('Verificar se Comprometido Dashboard = Comprometido Índice Despesas', async ({ page }) => {
             const dashboardComprometido = await readMoney(page, elements.dashboard.despesas.comprometido);
             await page.locator(elements.resumosFinanceiros.indiceDespesas.resumo.botaoAbrir).click();
             const indiceComprometido = await readMoney(page, elements.resumosFinanceiros.indiceDespesas.resumo.comprometido);
-            
+
             expectCloseTo(dashboardComprometido, indiceComprometido, 0.005);
         });
     });
@@ -85,7 +85,7 @@ test.describe('Consistência inter-seções', () => {
                 await page.locator(elements.fluxoCaixa.botaoLista).click();
                 const fluxoRealizado = await readMoney(page, elements.fluxoCaixa.entradas.realizado);
                 const indiceRecebido = await readMoney(page, elements.resumosFinanceiros.indiceReceitas.resumo.recebido);
-                
+
                 expectCloseTo(fluxoRealizado, indiceRecebido, 0.005);
             });
 
@@ -93,17 +93,17 @@ test.describe('Consistência inter-seções', () => {
                 await page.locator(elements.fluxoCaixa.botaoLista).click();
                 const fluxoARealizar = await readMoney(page, elements.fluxoCaixa.entradas.aRealizar);
                 const indiceAReceber = await readMoney(page, elements.resumosFinanceiros.indiceReceitas.resumo.aReceber);
-                
+
                 console.log('Fluxo A Realizar:', fluxoARealizar);
                 console.log('Índice A Receber:', indiceAReceber);
                 expectCloseTo(fluxoARealizar, indiceAReceber, 0.005);
             });
-            
+
             test('Verificar que projeção Receitas Resumos = Entradas Projeção Fluxo', async ({ page }) => {
                 await page.locator(elements.fluxoCaixa.botaoLista).click();
                 const fluxoProjecao = await readMoney(page, elements.fluxoCaixa.entradas.projecao);
                 const indiceProjecao = await readMoney(page, elements.resumosFinanceiros.indiceReceitas.resumo.projecaoEntrada);
-                
+
                 expectCloseTo(fluxoProjecao, indiceProjecao, 0.005);
             });
 
@@ -112,9 +112,9 @@ test.describe('Consistência inter-seções', () => {
                 const fluxoProjetado = await readMoney(page, elements.fluxoCaixa.entradas.projetado);
                 const indiceComprometido = await readMoney(page, elements.resumosFinanceiros.indiceReceitas.resumo.comprometido);
                 const indiceProjecao = await readMoney(page, elements.resumosFinanceiros.indiceReceitas.resumo.projecaoEntrada);
-                
-                const soma = indiceComprometido + indiceProjecao;
-                expectCloseTo(soma, fluxoProjetado, 0.005);
+
+                const somaCalculada = indiceComprometido + indiceProjecao;
+                expectCloseTo(somaCalculada, fluxoProjetado, 0.005);
             });
         });
 
@@ -123,7 +123,7 @@ test.describe('Consistência inter-seções', () => {
                 await page.locator(elements.fluxoCaixa.botaoLista).click();
                 const fluxoRealizado = await readMoney(page, elements.fluxoCaixa.saidas.realizado);
                 const indiceRealizado = await readMoney(page, elements.resumosFinanceiros.indiceDespesas.resumo.realizado);
-                
+
                 expectCloseTo(fluxoRealizado, indiceRealizado, 0.005);
             });
 
@@ -131,7 +131,7 @@ test.describe('Consistência inter-seções', () => {
                 await page.locator(elements.fluxoCaixa.botaoLista).click();
                 const fluxoARealizar = await readMoney(page, elements.fluxoCaixa.saidas.aRealizar);
                 const indiceARealizar = await readMoney(page, elements.resumosFinanceiros.indiceDespesas.resumo.realizar);
-                
+
                 expectCloseTo(fluxoARealizar, indiceARealizar, 0.005);
             });
 
@@ -139,7 +139,7 @@ test.describe('Consistência inter-seções', () => {
                 await page.locator(elements.fluxoCaixa.botaoLista).click();
                 const fluxoProjecao = await readMoney(page, elements.fluxoCaixa.saidas.projecao);
                 const indiceProjecao = await readMoney(page, elements.resumosFinanceiros.indiceDespesas.resumo.projecaoSaida);
-                
+
                 expectCloseTo(fluxoProjecao, indiceProjecao, 0.005);
             });
 
@@ -148,10 +148,86 @@ test.describe('Consistência inter-seções', () => {
                 const fluxoProjetado = await readMoney(page, elements.fluxoCaixa.saidas.projetado);
                 const indiceComprometido = await readMoney(page, elements.resumosFinanceiros.indiceDespesas.resumo.totalComprometido);
                 const indiceProjecao = await readMoney(page, elements.resumosFinanceiros.indiceDespesas.resumo.projecaoSaida);
-                
-                const soma = indiceComprometido + indiceProjecao;
-                expectCloseTo(soma, fluxoProjetado, 0.005);
+
+                const somaCalculada = indiceComprometido + indiceProjecao;
+                expectCloseTo(somaCalculada, fluxoProjetado, 0.005);
             });
+        });
+    });
+
+    test.describe('Consistência entre Resumos Financeiros - Validações Cruzadas', () => {
+        test('Verificar se total de Índice Receitas grid confere com total de Índice Receitas resumo', async ({ page }) => {
+            await page.locator(elements.resumosFinanceiros.indiceReceitas.resumo.botaoAbrir).click();
+
+            const totalGridReceitas = await readMoney(page, elements.resumosFinanceiros.indiceReceitas.grid.comprometido);
+            const totalResumoReceitas = await readMoney(page, elements.resumosFinanceiros.indiceReceitas.resumo.comprometido);
+
+            expectCloseTo(totalGridReceitas, totalResumoReceitas, 0.005);
+        });
+
+        test('Verificar se total de Índice Despesas grid confere com total de Índice Despesas resumo', async ({ page }) => {
+            await page.locator(elements.resumosFinanceiros.indiceDespesas.resumo.botaoAbrir).click();
+
+            const totalGridDespesas = await readMoney(page, elements.resumosFinanceiros.indiceDespesas.grid.comprometido);
+            const totalResumoDespesas = await readMoney(page, elements.resumosFinanceiros.indiceDespesas.resumo.comprometido);
+
+            expectCloseTo(totalGridDespesas, totalResumoDespesas, 0.005);
+        });
+
+        test('Verificar consistência entre Atrasos a Receber e dados do Dashboard', async ({ page }) => {
+            const dashboardTotalAReceber = await readMoney(page, elements.dashboard.receitas.totalAReceber);
+            const atrasosAReceber = await readMoney(page, elements.resumosFinanceiros.atrasosAReceber.resumo.total);
+
+            expect(atrasosAReceber).toBeLessThanOrEqual(dashboardTotalAReceber);
+        });
+
+        test('Verificar se Saldo total confere com cálculo baseado em receitas e despesas', async ({ page }) => {
+            const totalRecebido = await readMoney(page, elements.dashboard.receitas.totalRecebido);
+            const totalPago = await readMoney(page, elements.dashboard.despesas.totalPago);
+            const saldoAtual = await readMoney(page, elements.resumosFinanceiros.saldo.resumo.valorTotal);
+
+            const calculoSaldo = totalRecebido - totalPago;
+            expectCloseTo(calculoSaldo, saldoAtual, 0.05);
+        });
+    });
+
+    test.describe('Consistência Saldo x Outras Seções', () => {
+        test('Verificar se Total a Receber do Saldo confere com Dashboard', async ({ page }) => {
+            await page.locator(elements.resumosFinanceiros.saldo.resumo.botaoAbrir).click();
+
+            const saldoTotalAReceber = await readMoney(page, elements.resumosFinanceiros.saldo.grid.totalAReceber);
+            const dashboardTotalAReceber = await readMoney(page, elements.dashboard.receitas.totalAReceber);
+
+            expectCloseTo(saldoTotalAReceber, dashboardTotalAReceber, 0.005);
+        });
+
+        test('Verificar se Total a Pagar do Saldo confere com Dashboard', async ({ page }) => {
+            await page.locator(elements.resumosFinanceiros.saldo.resumo.botaoAbrir).click();
+
+            const saldoTotalAPagar = await readMoney(page, elements.resumosFinanceiros.saldo.grid.totalAPagar);
+            const dashboardTotalAPagar = await readMoney(page, elements.dashboard.despesas.totalAPagar);
+
+            expectCloseTo(saldoTotalAPagar, dashboardTotalAPagar, 0.005);
+        });
+
+        test('Verificar se Projeção Entradas do Saldo confere com Fluxo de Caixa', async ({ page }) => {
+            await page.locator(elements.resumosFinanceiros.saldo.resumo.botaoAbrir).click();
+            const saldoProjecaoEntradas = await readMoney(page, elements.resumosFinanceiros.saldo.grid.projecaoEntradas);
+
+            await page.locator(elements.fluxoCaixa.botaoLista).click();
+            const fluxoProjecaoEntradas = await readMoney(page, elements.fluxoCaixa.entradas.projecao);
+
+            expectCloseTo(saldoProjecaoEntradas, fluxoProjecaoEntradas, 0.005);
+        });
+
+        test('Verificar se Projeção Saídas do Saldo confere com Fluxo de Caixa', async ({ page }) => {
+            await page.locator(elements.resumosFinanceiros.saldo.resumo.botaoAbrir).click();
+            const saldoProjecaoSaidas = await readMoney(page, elements.resumosFinanceiros.saldo.grid.projecaoSaidas);
+
+            await page.locator(elements.fluxoCaixa.botaoLista).click();
+            const fluxoProjecaoSaidas = await readMoney(page, elements.fluxoCaixa.saidas.projecao);
+
+            expectCloseTo(saldoProjecaoSaidas, fluxoProjecaoSaidas, 0.005);
         });
     });
 });
